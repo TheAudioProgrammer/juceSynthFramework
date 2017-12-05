@@ -57,6 +57,11 @@ public:
     //==============================================================================
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    
+    float attackTime;
+    float releaseTime;
+    AudioProcessorValueTreeState tree;
+    
 
 private:
     Synthesiser mySynth;

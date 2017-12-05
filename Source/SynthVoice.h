@@ -27,6 +27,15 @@ public:
     
     //=======================================================
     
+    void getParam (float* attack, float* release)
+    {
+        env1.setAttack(double(*attack));
+        env1.setRelease(double(*release));
+    }
+    
+    
+    //=======================================================
+    
     void startNote (int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition)
     {
         env1.trigger = 1;
@@ -51,10 +60,10 @@ public:
     
     void renderNextBlock (AudioBuffer <float> &outputBuffer, int startSample, int numSamples)
     {
-        env1.setAttack(1000);
+        
         env1.setDecay(500);
         env1.setSustain(0.8);
-        env1.setRelease(2000);
+        
 
         
         

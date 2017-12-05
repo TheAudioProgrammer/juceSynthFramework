@@ -22,9 +22,19 @@ JuceSynthFrameworkAudioProcessor::JuceSynthFrameworkAudioProcessor()
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
+attackTime(0.1f),
+tree (*this, nullptr)
 #endif
 {
+    NormalisableRange<float> attackParam (0.1f, 5000.0f);
+    NormalisableRange<float> releaseParam (0.1f, 5000.0f);
+    
+    tree.createAndAddParameter("attack", "Attack", "Attack", attackParam, 0.1f, nullptr, nullptr);
+    
+    tree.createAndAddParameter("release", "Release", "Release", releaseParam, 0.1f, nullptr, nullptr);
+    
+    
     mySynth.clearVoices();
     
     for (int i = 0; i < 5; i++)
@@ -146,6 +156,17 @@ bool JuceSynthFrameworkAudioProcessor::isBusesLayoutSupported (const BusesLayout
 
 void JuceSynthFrameworkAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
+    
+    for (int i = 0; i < mySynth.getNumVoices(); i++)
+    {
+        if ((myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i))))
+        {
+            myVoice->getParam(tree.getRawParameterValue("attack"), tree.getRawParameterValue("release"));
+        }
+    }
+    
+    
+    
     
     buffer.clear();
     
