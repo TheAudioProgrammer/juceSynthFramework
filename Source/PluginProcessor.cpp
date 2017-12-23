@@ -28,11 +28,15 @@ tree (*this, nullptr)
 #endif
 {
     NormalisableRange<float> attackParam (0.1f, 5000.0f);
+    NormalisableRange<float> decayParam (0.1f, 5000.0f);
+    NormalisableRange<float> sustainParam (0.0f, 1.0f);
     NormalisableRange<float> releaseParam (0.1f, 5000.0f);
     
-    tree.createAndAddParameter("attack", "Attack", "Attack", attackParam, 0.1f, nullptr, nullptr);
     
-    tree.createAndAddParameter("release", "Release", "Release", releaseParam, 0.1f, nullptr, nullptr);
+    tree.createAndAddParameter("attack", "Attack", "Attack", attackParam, 0.7f, nullptr, nullptr);
+    tree.createAndAddParameter("decay", "Decay", "Decay", decayParam, 2000.0f, nullptr, nullptr);
+    tree.createAndAddParameter("sustain", "Sustain", "Sustain", sustainParam, 1.0f, nullptr, nullptr);
+    tree.createAndAddParameter("release", "Release", "Release", releaseParam, 1000.0f, nullptr, nullptr);
     
     
     mySynth.clearVoices();
@@ -161,7 +165,10 @@ void JuceSynthFrameworkAudioProcessor::processBlock (AudioSampleBuffer& buffer, 
     {
         if ((myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i))))
         {
-            myVoice->getParam(tree.getRawParameterValue("attack"), tree.getRawParameterValue("release"));
+            myVoice->getParam(tree.getRawParameterValue("attack"),
+                              tree.getRawParameterValue("decay"),
+                              tree.getRawParameterValue("sustain"),
+                              tree.getRawParameterValue("release"));
         }
     }
     

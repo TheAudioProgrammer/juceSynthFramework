@@ -37,9 +37,13 @@ private:
     JuceSynthFrameworkAudioProcessor& processor;
     
     ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> attackTree;
+    ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> decayTree;
+    ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> sustainTree;
     ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> releaseTree;
     
     Slider attackSlider;
+    Slider decaySlider;
+    Slider sustainSlider;
     Slider releaseSlider;
     
 

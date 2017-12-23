@@ -27,9 +27,11 @@ public:
     
     //=======================================================
     
-    void getParam (float* attack, float* release)
+    void getParam (float* attack, float* decay, float* sustain, float* release)
     {
         env1.setAttack(double(*attack));
+        env1.setDecay(double(*decay));
+        env1.setSustain(double(*sustain));
         env1.setRelease(double(*release));
     }
     
@@ -41,6 +43,8 @@ public:
         env1.trigger = 1;
         frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
         level = velocity;
+        
+        std::cout << level << std::endl;
     }
     
     //=======================================================
@@ -60,13 +64,6 @@ public:
     
     void renderNextBlock (AudioBuffer <float> &outputBuffer, int startSample, int numSamples)
     {
-        
-        env1.setDecay(500);
-        env1.setSustain(0.8);
-        
-
-        
-        
         for (int sample = 0; sample < numSamples; ++sample)
         {
             double theWave = osc1.sinewave(frequency);
