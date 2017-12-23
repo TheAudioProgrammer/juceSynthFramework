@@ -15,28 +15,33 @@
 Envelope::Envelope(JuceSynthFrameworkAudioProcessor& p) :
 AudioProcessorEditor (&p), processor (p)
 {
+    setSize(200, 200);
+    
     attackSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
     attackSlider.setRange(0.1f, 5000.0f);
     attackSlider.setValue(0.5f);
-    //attackSlider.setTextBoxStyle(Slider::TextBoxBelow, true, 20.0, 10.0);
+    attackSlider.setTextBoxStyle(Slider::NoTextBox, false, 20.0, 10.0);
     attackSlider.addListener(this);
     addAndMakeVisible(&attackSlider);
     
     decaySlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
     decaySlider.setRange(0.1f, 5000.0f);
     decaySlider.setValue(0.5f);
+    decaySlider.setTextBoxStyle(Slider::NoTextBox, false, 20.0, 10.0);
     decaySlider.addListener(this);
     addAndMakeVisible(&decaySlider);
     
     sustainSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
     sustainSlider.setRange(0.0f, 1.0f);
     sustainSlider.setValue(1.0f);
+    sustainSlider.setTextBoxStyle(Slider::NoTextBox, false, 20.0, 10.0);
     sustainSlider.addListener(this);
     addAndMakeVisible(&sustainSlider);
     
     releaseSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
     releaseSlider.setRange(0.1f, 5000.0f);
     releaseSlider.setValue(1000.0f);
+    releaseSlider.setTextBoxStyle(Slider::NoTextBox, false, 20.0, 10.0);
     releaseSlider.addListener(this);
     addAndMakeVisible(&releaseSlider);
     
@@ -54,15 +59,25 @@ Envelope::~Envelope()
 
 void Envelope::paint (Graphics& g)
 {
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
+    Rectangle<int> titleArea = getLocalBounds().removeFromTop(20);
+    
+    g.fillAll (Colours::black);
+    g.setColour(Colours::white);
+    g.drawText("Envelope", titleArea, Justification::centredTop);
+    
 }
 
 void Envelope::resized()
 {
-    attackSlider.setBounds (10, 10, 40, 100);
-    decaySlider.setBounds (60, 10, 40, 100);
-    sustainSlider.setBounds (110, 10, 40, 100);
-    releaseSlider.setBounds (160, 10, 40, 100);
+    Rectangle<int> area = getLocalBounds();
+    
+    int sliderWidth = 50;
+    int sliderHeight = 150;
+    
+    attackSlider.setBounds (area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(20));
+    decaySlider.setBounds (area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(20));
+    sustainSlider.setBounds (area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(20));
+    releaseSlider.setBounds (area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(20));
 
 }
 

@@ -18,8 +18,7 @@
 //==============================================================================
 /**
 */
-class JuceSynthFrameworkAudioProcessorEditor  : public AudioProcessorEditor,
-public Slider::Listener
+class JuceSynthFrameworkAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
     JuceSynthFrameworkAudioProcessorEditor (JuceSynthFrameworkAudioProcessor&);
@@ -29,10 +28,6 @@ public:
     void paint (Graphics&) override;
     void resized() override;
     
-    void sliderValueChanged (Slider* slider) override;
-    
-    
-
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.

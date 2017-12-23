@@ -48,6 +48,4 @@ private:
     Slider decaySlider;
     Slider sustainSlider;
     Slider releaseSlider;
-    
-    
 };

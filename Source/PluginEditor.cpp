@@ -16,7 +16,7 @@
 JuceSynthFrameworkAudioProcessorEditor::JuceSynthFrameworkAudioProcessorEditor (JuceSynthFrameworkAudioProcessor& p)
     : AudioProcessorEditor (&p), processor (p), env1 (p)
 {
-    setSize (400, 300);
+    setSize (800, 800);
     addAndMakeVisible(&env1);
 }
 
@@ -33,7 +33,9 @@ void JuceSynthFrameworkAudioProcessorEditor::paint (Graphics& g)
 
 void JuceSynthFrameworkAudioProcessorEditor::resized()
 {
-    env1.setBounds (getLocalBounds());
+    Rectangle <int> area = getLocalBounds();
+    
+    env1.setBounds (area.removeFromTop(200).removeFromLeft(200));
 }
 
 
