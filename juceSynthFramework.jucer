@@ -46,6 +46,8 @@
       <FILE id="kQBiIX" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
       <FILE id="epbIwL" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
       <FILE id="Bss5ak" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
+      <FILE id="vk2sMy" name="Envelope.cpp" compile="1" resource="0" file="Source/Envelope.cpp"/>
+      <FILE id="f8W03t" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

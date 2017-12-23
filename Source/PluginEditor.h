@@ -12,6 +12,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
+#include "Envelope.h"
 
 
 //==============================================================================
@@ -30,22 +31,14 @@ public:
     
     void sliderValueChanged (Slider* slider) override;
     
+    
 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     JuceSynthFrameworkAudioProcessor& processor;
     
-    ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> attackTree;
-    ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> decayTree;
-    ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> sustainTree;
-    ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> releaseTree;
+    Envelope env1;
     
-    Slider attackSlider;
-    Slider decaySlider;
-    Slider sustainSlider;
-    Slider releaseSlider;
-    
-
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (JuceSynthFrameworkAudioProcessorEditor)
 };
