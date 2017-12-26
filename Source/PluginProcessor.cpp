@@ -27,16 +27,25 @@ attackTime(0.1f),
 tree (*this, nullptr)
 #endif
 {
+    //oscillator parameters
+    
+    
+    //envelope normalisable range
     NormalisableRange<float> attackParam (0.1f, 5000.0f);
     NormalisableRange<float> decayParam (0.1f, 5000.0f);
     NormalisableRange<float> sustainParam (0.0f, 1.0f);
     NormalisableRange<float> releaseParam (0.1f, 5000.0f);
     
-    
+    //envelope parameters
     tree.createAndAddParameter("attack", "Attack", "Attack", attackParam, 0.7f, nullptr, nullptr);
     tree.createAndAddParameter("decay", "Decay", "Decay", decayParam, 2000.0f, nullptr, nullptr);
     tree.createAndAddParameter("sustain", "Sustain", "Sustain", sustainParam, 1.0f, nullptr, nullptr);
     tree.createAndAddParameter("release", "Release", "Release", releaseParam, 1000.0f, nullptr, nullptr);
+    
+    //wave type param
+    NormalisableRange<float> wavetypeParam (0.0f, 2.0f);
+    
+    tree.createAndAddParameter("wavetype", "Wavetype", "Wavetype", wavetypeParam, 0.0f, nullptr, nullptr);
     
     tree.state = ValueTree ("savedParams");
     
@@ -170,6 +179,8 @@ void JuceSynthFrameworkAudioProcessor::processBlock (AudioSampleBuffer& buffer, 
                               tree.getRawParameterValue("decay"),
                               tree.getRawParameterValue("sustain"),
                               tree.getRawParameterValue("release"));
+            
+            myVoice->getWaveType(tree.getRawParameterValue("wavetype"));
         }
     }
     

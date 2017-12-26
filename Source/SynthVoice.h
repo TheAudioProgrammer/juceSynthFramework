@@ -13,6 +13,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthSound.h"
 #include "Maximilian.h"
+//#include "SynthOsc.h"
 
 
 class SynthVoice : public SynthesiserVoice
@@ -34,6 +35,28 @@ public:
         env1.setSustain(double(*sustain));
         env1.setRelease(double(*release));
     }
+    
+    //=======================================================
+    
+    void getWaveType (float* oscId)
+    {
+        if (*oscId == 0)
+        {
+            //return osc1.sinewave(frequency);
+        }
+        else if (*oscId == 1)
+        {
+            //return osc1.saw(frequency);
+        }
+        else if (*oscId == 2)
+        {
+            //return osc1.square(frequency);
+        }
+        
+        std::cout << *oscId << std::endl;
+        
+    }
+    
     
     
     //=======================================================
@@ -57,7 +80,6 @@ public:
         
         if (velocity == 0)
             clearCurrentNote();
-        
     }
     
     //=======================================================
@@ -66,6 +88,7 @@ public:
     {
         for (int sample = 0; sample < numSamples; ++sample)
         {
+            //double theWave = osc1.getWaveType(frequency);
             double theWave = osc1.sinewave(frequency);
             double theSound = env1.adsr(theWave, env1.trigger) * level;
             
@@ -97,6 +120,7 @@ private:
     double level;
     double frequency;
     
+    //SynthOsc osc1;
     maxiOsc osc1;
     maxiEnv env1;
     

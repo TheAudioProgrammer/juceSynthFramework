@@ -14,10 +14,11 @@
 
 //==============================================================================
 JuceSynthFrameworkAudioProcessorEditor::JuceSynthFrameworkAudioProcessorEditor (JuceSynthFrameworkAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p), env1 (p)
+    : AudioProcessorEditor (&p), processor (p), osc1 (p), env1 (p)
 {
     setSize (800, 800);
     addAndMakeVisible(&env1);
+    addAndMakeVisible(&osc1);
 }
 
 JuceSynthFrameworkAudioProcessorEditor::~JuceSynthFrameworkAudioProcessorEditor()
@@ -34,8 +35,9 @@ void JuceSynthFrameworkAudioProcessorEditor::paint (Graphics& g)
 void JuceSynthFrameworkAudioProcessorEditor::resized()
 {
     Rectangle <int> area = getLocalBounds();
-    
+    osc1.setBounds(area.removeFromTop(200).removeFromLeft(200));
     env1.setBounds (area.removeFromTop(200).removeFromLeft(200));
+    
 }
 
 

@@ -12,6 +12,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
+#include "SynthOsc.h"
 #include "Envelope.h"
 
 
@@ -33,6 +34,7 @@ private:
     // access the processor object that created it.
     JuceSynthFrameworkAudioProcessor& processor;
     
+    SynthOsc osc1;
     Envelope env1;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (JuceSynthFrameworkAudioProcessorEditor)

@@ -48,6 +48,8 @@
       <FILE id="Bss5ak" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
       <FILE id="vk2sMy" name="Envelope.cpp" compile="1" resource="0" file="Source/Envelope.cpp"/>
       <FILE id="f8W03t" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
+      <FILE id="L3iUMx" name="SynthOsc.cpp" compile="1" resource="0" file="Source/SynthOsc.cpp"/>
+      <FILE id="VoJeGT" name="SynthOsc.h" compile="0" resource="0" file="Source/SynthOsc.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
