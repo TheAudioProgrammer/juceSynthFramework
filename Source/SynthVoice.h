@@ -69,20 +69,13 @@ public:
             double theWave = osc1.sinewave(frequency);
             double theSound = env1.adsr(theWave, env1.trigger) * level;
             
-            
             for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
             {
                 outputBuffer.addSample(channel, startSample, theSound);
             }
-            
             ++startSample;
-            
         }
-        
-       
     }
-    
-    
     
     void pitchWheelMoved (int newPitchWheelValue)
     {

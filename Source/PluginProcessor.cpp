@@ -38,6 +38,7 @@ tree (*this, nullptr)
     tree.createAndAddParameter("sustain", "Sustain", "Sustain", sustainParam, 1.0f, nullptr, nullptr);
     tree.createAndAddParameter("release", "Release", "Release", releaseParam, 1000.0f, nullptr, nullptr);
     
+    tree.state = ValueTree ("savedParams");
     
     mySynth.clearVoices();
     
@@ -194,15 +195,21 @@ AudioProcessorEditor* JuceSynthFrameworkAudioProcessor::createEditor()
 //==============================================================================
 void JuceSynthFrameworkAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    ScopedPointer<XmlElement> xml (tree.state.createXml());
+    copyXmlToBinary(*xml, destData);
 }
 
 void JuceSynthFrameworkAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    ScopedPointer<XmlElement> theParams (getXmlFromBinary(data, sizeInBytes));
+    
+    if (theParams != nullptr)
+    {
+        if (theParams->hasTagName(tree.state.getType()))
+        {
+            tree.state = ValueTree::fromXml(*theParams);
+        }
+    }
 }
 
 //==============================================================================
