@@ -64,10 +64,13 @@ public:
     float releaseTime;
     AudioProcessorValueTreeState tree;
     
-
-private:
+    ScopedPointer <AudioParameterChoice> oscSelector;
+    
     Synthesiser mySynth;
     SynthVoice* myVoice;
+
+private:
+    
     
     double lastSampleRate;
     

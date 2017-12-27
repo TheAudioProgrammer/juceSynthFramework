@@ -34,6 +34,8 @@ private:
     // access the processor object that created it.
     JuceSynthFrameworkAudioProcessor& processor;
     
+    Label synthOscLabel;
+    
     SynthOsc osc1;
     Envelope env1;
     

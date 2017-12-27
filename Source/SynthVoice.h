@@ -13,12 +13,11 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthSound.h"
 #include "Maximilian.h"
-//#include "SynthOsc.h"
+#include "SynthVoice.h"  
 
 
 class SynthVoice : public SynthesiserVoice
-{
-    
+{    
 public:
     
     bool canPlaySound (SynthesiserSound* sound)
@@ -38,23 +37,9 @@ public:
     
     //=======================================================
     
-    void getWaveType (float* oscId)
+    void getWaveType (int* oscId)
     {
-        if (*oscId == 0)
-        {
-            //return osc1.sinewave(frequency);
-        }
-        else if (*oscId == 1)
-        {
-            //return osc1.saw(frequency);
-        }
-        else if (*oscId == 2)
-        {
-            //return osc1.square(frequency);
-        }
-        
-        std::cout << *oscId << std::endl;
-        
+        theWave = *oscId;
     }
     
     
@@ -66,8 +51,6 @@ public:
         env1.trigger = 1;
         frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
         level = velocity;
-        
-        std::cout << level << std::endl;
     }
     
     //=======================================================
@@ -86,11 +69,21 @@ public:
     
     void renderNextBlock (AudioBuffer <float> &outputBuffer, int startSample, int numSamples)
     {
+        
+        
         for (int sample = 0; sample < numSamples; ++sample)
         {
-            //double theWave = osc1.getWaveType(frequency);
-            double theWave = osc1.sinewave(frequency);
-            double theSound = env1.adsr(theWave, env1.trigger) * level;
+            if (theWave == 1)
+            {
+                oscWaveType = osc1.sinewave(frequency);
+            }
+            
+            if (theWave == 2)
+            {
+                oscWaveType = osc1.saw(frequency);
+            }
+            
+            double theSound = env1.adsr(oscWaveType, env1.trigger) * level * 0.2f;
             
             for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
             {
@@ -119,8 +112,9 @@ public:
 private:
     double level;
     double frequency;
+    double oscWaveType;
     
-    //SynthOsc osc1;
+    int theWave = 1;
     maxiOsc osc1;
     maxiEnv env1;
     

@@ -12,6 +12,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
+#include "SynthSound.h"
+#include "SynthVoice.h"
 
 //==============================================================================
 /*
@@ -28,7 +30,6 @@ public:
     
     void comboBoxChanged(ComboBox*) override;
     
-    //double getWaveType (double frequency);
 
 private:
     // This reference is provided as a quick way for your editor to
@@ -36,6 +37,8 @@ private:
     JuceSynthFrameworkAudioProcessor& processor;
     
     ComboBox synthBox;
+    
+    //SynthVoice* myVoice;
     
     maxiOsc osc1;
     

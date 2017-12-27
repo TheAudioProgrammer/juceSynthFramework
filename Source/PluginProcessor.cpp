@@ -43,9 +43,9 @@ tree (*this, nullptr)
     tree.createAndAddParameter("release", "Release", "Release", releaseParam, 1000.0f, nullptr, nullptr);
     
     //wave type param
-    NormalisableRange<float> wavetypeParam (0.0f, 2.0f);
+    NormalisableRange<float> wavetypeParam (1, 3);
     
-    tree.createAndAddParameter("wavetype", "Wavetype", "Wavetype", wavetypeParam, 0.0f, nullptr, nullptr);
+    tree.createAndAddParameter("wavetype", "Wavetype", "Wavetype", wavetypeParam, 0, nullptr, nullptr);
     
     tree.state = ValueTree ("savedParams");
     
@@ -58,9 +58,6 @@ tree (*this, nullptr)
     
     mySynth.clearSounds();
     mySynth.addSound(new SynthSound());
-    
-    
-    
 }
 
 JuceSynthFrameworkAudioProcessor::~JuceSynthFrameworkAudioProcessor()
@@ -135,7 +132,6 @@ void JuceSynthFrameworkAudioProcessor::prepareToPlay (double sampleRate, int sam
     ignoreUnused(samplesPerBlock);
     lastSampleRate = sampleRate;
     mySynth.setCurrentPlaybackSampleRate(lastSampleRate);
-    
 }
 
 void JuceSynthFrameworkAudioProcessor::releaseResources()
@@ -171,6 +167,7 @@ bool JuceSynthFrameworkAudioProcessor::isBusesLayoutSupported (const BusesLayout
 void JuceSynthFrameworkAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
     
+    
     for (int i = 0; i < mySynth.getNumVoices(); i++)
     {
         if ((myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i))))
@@ -179,8 +176,6 @@ void JuceSynthFrameworkAudioProcessor::processBlock (AudioSampleBuffer& buffer, 
                               tree.getRawParameterValue("decay"),
                               tree.getRawParameterValue("sustain"),
                               tree.getRawParameterValue("release"));
-            
-            myVoice->getWaveType(tree.getRawParameterValue("wavetype"));
         }
     }
     
