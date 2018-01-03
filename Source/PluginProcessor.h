@@ -62,6 +62,11 @@ public:
     float decayTime;
     float sustainTime;
     float releaseTime;
+    
+    float filterCutoff;
+    float filterResonance;
+    
+    
     AudioProcessorValueTreeState tree;
     
     ScopedPointer <AudioParameterChoice> oscSelector;

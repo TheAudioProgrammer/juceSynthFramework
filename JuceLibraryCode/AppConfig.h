@@ -291,7 +291,7 @@
  #define JucePlugin_Enable_IAA             0
 #endif
 #ifndef  JucePlugin_Name
- #define JucePlugin_Name                   "juceSynthFramework"
+ #define JucePlugin_Name                   "Alex Synth"
 #endif
 #ifndef  JucePlugin_Desc
  #define JucePlugin_Desc                   "juceSynthFramework"
@@ -399,5 +399,5 @@
  #define JucePlugin_IAASubType             JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_IAAName
- #define JucePlugin_IAAName                "yourcompany: juceSynthFramework"
+ #define JucePlugin_IAAName                "yourcompany: Alex Synth"
 #endif

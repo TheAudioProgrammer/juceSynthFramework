@@ -14,6 +14,7 @@
 #include "PluginProcessor.h"
 #include "SynthOsc.h"
 #include "Envelope.h"
+#include "Filter.h"
 
 
 //==============================================================================
@@ -38,6 +39,7 @@ private:
     
     SynthOsc osc1;
     Envelope env1;
+    Filter filter1;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (JuceSynthFrameworkAudioProcessorEditor)
 };

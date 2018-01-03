@@ -38,8 +38,6 @@ private:
     
     ComboBox synthBox;
     
-    //SynthVoice* myVoice;
-    
     maxiOsc osc1;
     
     ScopedPointer <AudioProcessorValueTreeState::ComboBoxAttachment> waveType;

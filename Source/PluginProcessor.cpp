@@ -42,10 +42,19 @@ tree (*this, nullptr)
     tree.createAndAddParameter("sustain", "Sustain", "Sustain", sustainParam, 1.0f, nullptr, nullptr);
     tree.createAndAddParameter("release", "Release", "Release", releaseParam, 1000.0f, nullptr, nullptr);
     
-    //wave type param
+    //wave and filter type param
     NormalisableRange<float> wavetypeParam (1, 3);
+    NormalisableRange<float> filtertypeParam (1, 3);
+    NormalisableRange<float> filterCutoffParam (20.0f, 15000.0f);
+    filterCutoffParam.setSkewForCentre(800);
+    
+    NormalisableRange<float> filterResonanceParam (1.0f, 4.0f);
     
     tree.createAndAddParameter("wavetype", "Wavetype", "Wavetype", wavetypeParam, 0, nullptr, nullptr);
+    tree.createAndAddParameter("filtertype", "Filtertype", "Filtertype", filtertypeParam, 0, nullptr, nullptr);
+    tree.createAndAddParameter("filterCutoff", "FilterCutoff", "FilterCutoff", filterCutoffParam, 200.0f, nullptr, nullptr);
+    tree.createAndAddParameter("filterResonance", "FilterResonance", "FilterResonance", filterResonanceParam, 1.0f, nullptr, nullptr);
+    
     
     tree.state = ValueTree ("savedParams");
     
@@ -176,6 +185,11 @@ void JuceSynthFrameworkAudioProcessor::processBlock (AudioSampleBuffer& buffer, 
                               tree.getRawParameterValue("decay"),
                               tree.getRawParameterValue("sustain"),
                               tree.getRawParameterValue("release"));
+            
+            myVoice->getFilterParam(tree.getRawParameterValue("filterCutoff"),
+                                    tree.getRawParameterValue("filterResonance"));
+            
+            
         }
     }
     

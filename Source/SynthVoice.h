@@ -13,12 +13,17 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthSound.h"
 #include "Maximilian.h"
-#include "SynthVoice.h"  
+#include "SynthVoice.h"
 
 
 class SynthVoice : public SynthesiserVoice
 {    
 public:
+    double filterCutoff = 100;
+    double filterResonance = 1.0;
+    
+    
+    //=======================================================
     
     bool canPlaySound (SynthesiserSound* sound)
     {
@@ -35,6 +40,12 @@ public:
         env1.setRelease(double(*release));
     }
     
+    void getFilterParam (float* _filterCutoff, float* _filterResonance)
+    {
+        filterCutoff = (double) *_filterCutoff;
+        filterResonance = (double) *_filterResonance;
+    }
+    
     //=======================================================
     
     void getWaveType (int* oscId)
@@ -42,7 +53,22 @@ public:
         theWave = *oscId;
     }
     
+    //=======================================================
     
+    void getFilterType (int* filterId)
+    {
+        theFilter = *filterId;
+    }
+    
+    //=======================================================
+    
+    double setFilterType (double input, double filterCutoff, double filterResonance)
+    {
+        if (theFilter == 1)
+            return filter.lores(input, filterCutoff, filterResonance);
+        else
+            return filter.hires(input, filterCutoff, filterResonance);
+    }
     
     //=======================================================
     
@@ -73,6 +99,10 @@ public:
         
         for (int sample = 0; sample < numSamples; ++sample)
         {
+          
+            double currentFrame = 0;
+            
+            //change oscillators...
             if (theWave == 1)
             {
                 oscWaveType = osc1.sinewave(frequency);
@@ -83,11 +113,12 @@ public:
                 oscWaveType = osc1.saw(frequency);
             }
             
-            double theSound = env1.adsr(oscWaveType, env1.trigger) * level * 0.2f;
+            currentFrame = env1.adsr(oscWaveType, env1.trigger) * level * 0.2f;
+            currentFrame = setFilterType (currentFrame, filterCutoff, filterResonance);
             
             for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
             {
-                outputBuffer.addSample(channel, startSample, theSound);
+                outputBuffer.addSample(channel, startSample, currentFrame);
             }
             ++startSample;
         }
@@ -114,10 +145,11 @@ private:
     double frequency;
     double oscWaveType;
     
+    
     int theWave = 1;
+    int theFilter = 1;
     maxiOsc osc1;
     maxiEnv env1;
-    
-    
+    maxiFilter filter;
     
 };

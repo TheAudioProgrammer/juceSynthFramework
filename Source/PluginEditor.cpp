@@ -14,12 +14,13 @@
 
 //==============================================================================
 JuceSynthFrameworkAudioProcessorEditor::JuceSynthFrameworkAudioProcessorEditor (JuceSynthFrameworkAudioProcessor& p)
-: AudioProcessorEditor (&p), processor (p), osc1 (p), env1 (p)
+: AudioProcessorEditor (&p), processor (p), osc1 (p), env1 (p), filter1 (p)
     //synthOscLabel({ }, processor.oscSelector->name)
 {
-    setSize (400, 200);
+    setSize (600, 200);
     addAndMakeVisible(&env1);
-    addAndMakeVisible(&osc1);   
+    addAndMakeVisible(&osc1);
+    addAndMakeVisible(&filter1);
 }
 
 JuceSynthFrameworkAudioProcessorEditor::~JuceSynthFrameworkAudioProcessorEditor()
@@ -40,7 +41,9 @@ void JuceSynthFrameworkAudioProcessorEditor::resized()
     const int sectionWidth = 200;
     const int sectionHeight = 200;
     osc1.setBounds(area.removeFromLeft(sectionWidth).removeFromTop(sectionHeight));
+    filter1.setBounds (area.removeFromLeft(sectionWidth).removeFromTop(sectionHeight));
     env1.setBounds (area.removeFromLeft(sectionWidth).removeFromTop(sectionHeight));
+    
 }
 
 
