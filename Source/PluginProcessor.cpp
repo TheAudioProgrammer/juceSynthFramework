@@ -27,39 +27,47 @@ attackTime(0.1f),
 tree (*this, nullptr)
 #endif
 {
-    //oscillator parameters
+    //The audio processor value tree state allows us to create automatable parameters in any daw and understand what we're controlling!  It also creates a link between the gui side of the plugin and the processing side
     
     
-    //envelope normalisable range
-    NormalisableRange<float> attackParam (0.1f, 5000.0f);
-    NormalisableRange<float> decayParam (0.1f, 5000.0f);
-    NormalisableRange<float> sustainParam (0.0f, 1.0f);
-    NormalisableRange<float> releaseParam (0.1f, 5000.0f);
+    //envelope normalisable range for processor tree
+    NormalisableRange<float> attackRange (0.1f, 5000.0f);
+    NormalisableRange<float> decayRange (0.1f, 5000.0f);
+    NormalisableRange<float> sustainRange (0.0f, 1.0f);
+    NormalisableRange<float> releaseRange (0.1f, 5000.0f);
     
-    //envelope parameters
-    tree.createAndAddParameter("attack", "Attack", "Attack", attackParam, 0.7f, nullptr, nullptr);
-    tree.createAndAddParameter("decay", "Decay", "Decay", decayParam, 2000.0f, nullptr, nullptr);
-    tree.createAndAddParameter("sustain", "Sustain", "Sustain", sustainParam, 1.0f, nullptr, nullptr);
-    tree.createAndAddParameter("release", "Release", "Release", releaseParam, 1000.0f, nullptr, nullptr);
+    //envelope parameters for processor tree
+    tree.createAndAddParameter("attack", "Attack", "Attack", attackRange, 0.7f, nullptr, nullptr);
+    tree.createAndAddParameter("decay", "Decay", "Decay", decayRange, 2000.0f, nullptr, nullptr);
+    tree.createAndAddParameter("sustain", "Sustain", "Sustain", sustainRange, 1.0f, nullptr, nullptr);
+    tree.createAndAddParameter("release", "Release", "Release", releaseRange, 1000.0f, nullptr, nullptr);
     
     //wave and filter type param
-    NormalisableRange<float> wavetypeParam (1, 3);
-    NormalisableRange<float> filtertypeParam (1, 3);
-    NormalisableRange<float> filterCutoffParam (20.0f, 15000.0f);
-    filterCutoffParam.setSkewForCentre(800);
+    NormalisableRange<float> wavetypeRange (1, 3);
+    NormalisableRange<float> filtertypeRange (1, 3);
+    NormalisableRange<float> modFreqRange (0.0f, 1000.0f);
+    NormalisableRange<float> modDepthRange (0.0f, 1000.0f);
+    NormalisableRange<float> filterCutoffRange (20.0f, 15000.0f);
+    filterCutoffRange.setSkewForCentre(800);
+    NormalisableRange<float> filterResonanceRange (1.0f, 4.0f);
     
-    NormalisableRange<float> filterResonanceParam (1.0f, 4.0f);
+    //wavetype, filtertype, and filter params
+    tree.createAndAddParameter("wavetype", "Wavetype", "Wavetype", wavetypeRange, 0, nullptr, nullptr);
+    tree.createAndAddParameter("filtertype", "Filtertype", "Filtertype", filtertypeRange, 0, nullptr, nullptr);
+    tree.createAndAddParameter("filterCutoff", "FilterCutoff", "FilterCutoff", filterCutoffRange, 200.0f, nullptr, nullptr);
+    tree.createAndAddParameter("filterResonance", "FilterResonance", "FilterResonance", filterResonanceRange, 1.0f, nullptr, nullptr);
     
-    tree.createAndAddParameter("wavetype", "Wavetype", "Wavetype", wavetypeParam, 0, nullptr, nullptr);
-    tree.createAndAddParameter("filtertype", "Filtertype", "Filtertype", filtertypeParam, 0, nullptr, nullptr);
-    tree.createAndAddParameter("filterCutoff", "FilterCutoff", "FilterCutoff", filterCutoffParam, 200.0f, nullptr, nullptr);
-    tree.createAndAddParameter("filterResonance", "FilterResonance", "FilterResonance", filterResonanceParam, 1.0f, nullptr, nullptr);
+    //mod osc
+    tree.createAndAddParameter("modFreq", "ModFreq", "ModFreq", modFreqRange, 0.0f, nullptr, nullptr);
+    tree.createAndAddParameter("modDepth", "ModDepth", "ModDepth", modDepthRange, 0.0f, nullptr, nullptr);
     
-    
+    //used for xml- save the state of the tree for recall
     tree.state = ValueTree ("savedParams");
     
+    //clear any voices that may be lingering (help from juce synth example)
     mySynth.clearVoices();
     
+    //creates 5 voice polyphony (help from juce synth example)
     for (int i = 0; i < 5; i++)
     {
         mySynth.addVoice (new SynthVoice());
@@ -179,6 +187,9 @@ void JuceSynthFrameworkAudioProcessor::processBlock (AudioSampleBuffer& buffer, 
     
     for (int i = 0; i < mySynth.getNumVoices(); i++)
     {
+        /*(help from Juce synth example) if the the voice is sucessfully cast as a synthvoice pointer,
+        get the parameters needed to create the voice from the synthvoice class
+         */
         if ((myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i))))
         {
             myVoice->getParam(tree.getRawParameterValue("attack"),
@@ -189,15 +200,17 @@ void JuceSynthFrameworkAudioProcessor::processBlock (AudioSampleBuffer& buffer, 
             myVoice->getFilterParam(tree.getRawParameterValue("filterCutoff"),
                                     tree.getRawParameterValue("filterResonance"));
             
-            
+            myVoice->getModOscParam(tree.getRawParameterValue("modFreq"),
+                                    tree.getRawParameterValue("modDepth"));
         }
     }
     
     
     
-    
+    //clear lingering junk
     buffer.clear();
     
+    //play the sounds
     mySynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 }
 
@@ -215,14 +228,17 @@ AudioProcessorEditor* JuceSynthFrameworkAudioProcessor::createEditor()
 //==============================================================================
 void JuceSynthFrameworkAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
+    //(help from juce tutorials) create xml object pointer to get all state information
     ScopedPointer<XmlElement> xml (tree.state.createXml());
     copyXmlToBinary(*xml, destData);
 }
 
 void JuceSynthFrameworkAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
+    //create an xml from the binary info (help from juce tutorials)
     ScopedPointer<XmlElement> theParams (getXmlFromBinary(data, sizeInBytes));
     
+    //(help from juce tutorials) safeguard if there's no xml
     if (theParams != nullptr)
     {
         if (theParams->hasTagName(tree.state.getType()))

@@ -29,11 +29,13 @@ public:
     void paint (Graphics&) override;
     void resized() override;
     
+    //pure virtual functions I need to implement when inheriting from classes above
     void comboBoxChanged(ComboBox*) override;
     void sliderValueChanged(Slider*) override;
     
     double getFilterType (double input, float filterCutoff, float filterResonance);
     
+    //these relay slider values back to the processor tree state.  Scoped Pointer deletes itself when out of scope
     ScopedPointer<AudioProcessorValueTreeState::ComboBoxAttachment> filterType;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> cutoff;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> resonance;

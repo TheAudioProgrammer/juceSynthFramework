@@ -13,7 +13,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 
-
+//this is necessary to use the synthesizer class in juce (help from juce forum)
 class SynthSound : public SynthesiserSound
 {
 

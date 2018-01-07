@@ -58,19 +58,21 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     
+    //don't think I actually need these since I'm getting values from the tree state, but afraid to delete them
     float attackTime;
     float decayTime;
     float sustainTime;
     float releaseTime;
-    
     float filterCutoff;
     float filterResonance;
     
-    
+    //tree state holds all param values to save or recall, or automate in a daw
     AudioProcessorValueTreeState tree;
     
+    //selector for wave osc type
     ScopedPointer <AudioParameterChoice> oscSelector;
     
+    //need these to use a synth in juce! (help frum juce tutorials)
     Synthesiser mySynth;
     SynthVoice* myVoice;
 

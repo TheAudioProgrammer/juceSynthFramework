@@ -35,8 +35,10 @@ private:
     // access the processor object that created it.
     JuceSynthFrameworkAudioProcessor& processor;
     
+    //create labels to identify which wave we would like to use
     Label synthOscLabel;
-    
+   
+    //objects from classes I've created
     SynthOsc osc1;
     Envelope env1;
     Filter filter1;

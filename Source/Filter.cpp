@@ -17,14 +17,14 @@ AudioProcessorEditor (&p), processor (p)
 {
     setSize(200, 200);
     
+    //settings for filter box and add items
     filterBox.setJustificationType(Justification::centred);
-    
     filterBox.addItem("Low-Pass", 1);
     filterBox.addItem("Hi-Pass", 2);
-    
     filterBox.addListener(this);
     addAndMakeVisible(filterBox);
     
+    //slider settings to get things working set values etc
     filterDial.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     filterDial.setRange(20.0f, 15000.0f);
     filterDial.setValue(200.0f);
@@ -39,6 +39,7 @@ AudioProcessorEditor (&p), processor (p)
     resonanceDial.addListener(this);
     addAndMakeVisible(resonanceDial);
     
+    //relays slider values to the processor tree state
     filterType = new AudioProcessorValueTreeState::ComboBoxAttachment (processor.tree, "filtertype", filterBox);
     
     cutoff = new AudioProcessorValueTreeState::SliderAttachment (processor.tree, "filterCutoff", filterDial);
@@ -52,6 +53,7 @@ Filter::~Filter()
 
 void Filter::paint (Graphics& g)
 {
+    //background ui stuff
     Rectangle<int> titleArea (0, 10, getWidth(), 20);
     
     g.fillAll (Colours::black);
@@ -67,14 +69,16 @@ void Filter::paint (Graphics& g)
 
 void Filter::resized()
 {
-    Rectangle<int> area = getLocalBounds().reduced(50);
+    //need to come back and dynamically set these...ok for now
+    Rectangle<int> area = getLocalBounds().reduced(40);
     
-    filterBox.setBounds(area.removeFromTop(30));
-    filterDial.setBounds (30, 90, 70, 70);
-    resonanceDial.setBounds (100, 90, 70, 70);
+    filterBox.setBounds(area.removeFromTop(20));
+    filterDial.setBounds (30, 100, 70, 70);
+    resonanceDial.setBounds (100, 100, 70, 70);
 
 }
 
+//pure virtual function I needed to implement when inheriting from slider::listener
 void Filter::sliderValueChanged(Slider* slider)
 {
     if (slider == &filterDial)
@@ -88,11 +92,13 @@ void Filter::sliderValueChanged(Slider* slider)
     }
     
 }
-
+//pure virtual function I needed to implement when inheriting from combobox
 void Filter::comboBoxChanged(ComboBox *box)
 {
+    //combobox index starts at 1
     auto index = filterBox.getSelectedItemIndex() + 1;
     
+    //relays combobox choice to synth voice
     if (box == &filterBox)
     {
         int* theSelection = &index;

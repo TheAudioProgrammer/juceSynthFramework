@@ -39,11 +39,13 @@ private:
     // access the processor object that created it.
     JuceSynthFrameworkAudioProcessor& processor;
     
+    //these relay slider values back to the processor tree state.  Scoped Pointer deletes itself when out of scope
     ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> attackTree;
     ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> decayTree;
     ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> sustainTree;
     ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> releaseTree;
     
+    //slider objects
     Slider attackSlider;
     Slider decaySlider;
     Slider sustainSlider;
