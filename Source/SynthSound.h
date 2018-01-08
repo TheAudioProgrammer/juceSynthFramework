@@ -14,7 +14,7 @@
 
 
 
-class SynthSound : public SynthesizerSound
+class SynthSound : public SynthesiserSound
 {
 
 public:
