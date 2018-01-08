@@ -26,11 +26,5 @@ public:
     bool appliesToChannel (int midiNoteNumber) override
     {
         return true;
-    }
-    
-    
-    
-    
-    
-    
+    }    
 };

@@ -14,6 +14,29 @@
               pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="5.2.0">
   <MAINGROUP id="Z0T8fs" name="juceSynthFramework">
     <GROUP id="{FDD0FFB0-7ABA-CAD0-AB6D-A607E5623CAE}" name="Source">
+      <GROUP id="{B5469151-45EB-23CF-24BA-61DF6EF9FF89}" name="Maximilian">
+        <GROUP id="{22CE6B75-7465-D7A3-82AB-D7CEAEF1B519}" name="libs">
+          <FILE id="qirNEs" name="fft.cpp" compile="1" resource="0" file="../../../Libraries/Maximilian/libs/fft.cpp"/>
+          <FILE id="qyl0UF" name="fft.h" compile="0" resource="0" file="../../../Libraries/Maximilian/libs/fft.h"/>
+          <FILE id="tx4jTf" name="maxiAtoms.cpp" compile="1" resource="0" file="../../../Libraries/Maximilian/libs/maxiAtoms.cpp"/>
+          <FILE id="EzOy0u" name="maxiAtoms.h" compile="0" resource="0" file="../../../Libraries/Maximilian/libs/maxiAtoms.h"/>
+          <FILE id="xfTnfo" name="maxiBark.cpp" compile="1" resource="0" file="../../../Libraries/Maximilian/libs/maxiBark.cpp"/>
+          <FILE id="DB16qJ" name="maxiBark.h" compile="0" resource="0" file="../../../Libraries/Maximilian/libs/maxiBark.h"/>
+          <FILE id="q8R2ht" name="maxiFFT.cpp" compile="1" resource="0" file="../../../Libraries/Maximilian/libs/maxiFFT.cpp"/>
+          <FILE id="kV04Lh" name="maxiFFT.h" compile="0" resource="0" file="../../../Libraries/Maximilian/libs/maxiFFT.h"/>
+          <FILE id="tkMceF" name="maxiGrains.cpp" compile="1" resource="0" file="../../../Libraries/Maximilian/libs/maxiGrains.cpp"/>
+          <FILE id="difWYi" name="maxiGrains.h" compile="0" resource="0" file="../../../Libraries/Maximilian/libs/maxiGrains.h"/>
+          <FILE id="LkT8yt" name="maxim.h" compile="0" resource="0" file="../../../Libraries/Maximilian/libs/maxim.h"/>
+          <FILE id="oAGQlV" name="maxiMFCC.cpp" compile="1" resource="0" file="../../../Libraries/Maximilian/libs/maxiMFCC.cpp"/>
+          <FILE id="lqHxUI" name="maxiMFCC.h" compile="0" resource="0" file="../../../Libraries/Maximilian/libs/maxiMFCC.h"/>
+          <FILE id="FBJWqx" name="sineTable.h" compile="0" resource="0" file="../../../Libraries/Maximilian/libs/sineTable.h"/>
+        </GROUP>
+        <FILE id="E2No1w" name="main.cpp" compile="1" resource="0" file="../../../Libraries/Maximilian/main.cpp"/>
+        <FILE id="ulT2V1" name="maximilian.cpp" compile="1" resource="0" file="../../../Libraries/Maximilian/maximilian.cpp"/>
+        <FILE id="hZD4wo" name="maximilian.h" compile="0" resource="0" file="../../../Libraries/Maximilian/maximilian.h"/>
+        <FILE id="gsHDCs" name="stb_vorbis.c" compile="1" resource="0" file="../../../Libraries/Maximilian/stb_vorbis.c"/>
+        <FILE id="I0g7ng" name="stb_vorbis.h" compile="0" resource="0" file="../../../Libraries/Maximilian/stb_vorbis.h"/>
+      </GROUP>
       <FILE id="Tn9AzU" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="KfsFJU" name="PluginProcessor.h" compile="0" resource="0"
@@ -29,7 +52,7 @@
     <XCODE_MAC targetFolder="Builds/MacOSX">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" enablePluginBinaryCopyStep="1" isDebug="1" optimisation="1"
-                       linkTimeOptimisation="0" targetName="juceSynthFramework"/>
+                       linkTimeOptimisation="0" targetName="juceSynthFramework" headerPath="/Users/djatwar/Development/Libraries/Maximilian"/>
         <CONFIGURATION name="Release" enablePluginBinaryCopyStep="1" isDebug="0" optimisation="3"
                        linkTimeOptimisation="1" targetName="juceSynthFramework"/>
       </CONFIGURATIONS>
