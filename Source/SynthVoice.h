@@ -23,6 +23,14 @@ public:
         return dynamic_cast <SynthSound*>(sound) != nullptr;
     }
     
+    void getEnvelopeParams(float* attack, float* decay, float* sustain, float* release)
+    {
+        env1.setAttack(*attack);
+        env1.setDecay(*decay);
+        env1.setSustain(*sustain);
+        env1.setRelease(*release);
+    }
+    
     //=======================================================
     
     void startNote (int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition) override
@@ -61,11 +69,6 @@ public:
     
     void renderNextBlock (AudioBuffer <float> &outputBuffer, int startSample, int numSamples) override
     {
-        env1.setAttack(.2);
-        env1.setDecay(500);
-        env1.setSustain(0.8);
-        env1.setRelease(2000.0);
-        
         for (int sample = 0; sample < numSamples; ++sample)
         {
             double theWave = osc1.sinewave(frequency);
