@@ -38,6 +38,11 @@ tree(*this, nullptr)
     tree.createAndAddParameter("sustain", "Sustain", "sustain", sustainParam, 0.8f, nullptr, nullptr);
     tree.createAndAddParameter("release", "Release", "release", releaseParam, 0.1f, nullptr, nullptr);
     
+    
+    NormalisableRange<float> wavetypeParam (0, 2);
+    tree.createAndAddParameter("wavetype", "WaveType", "wavetype", wavetypeParam, 0, nullptr, nullptr);
+    
+    
     mySynth.clearVoices();
     
     for (int i = 0; i < 5; i++)
@@ -168,6 +173,8 @@ void JuceSynthFrameworkAudioProcessor::processBlock (AudioSampleBuffer& buffer, 
                                        tree.getRawParameterValue("decay"),
                                        tree.getRawParameterValue("sustain"),
                                        tree.getRawParameterValue("release"));
+            
+            myVoice->getOscType(tree.getRawParameterValue("wavetype"));
         }
     }
     

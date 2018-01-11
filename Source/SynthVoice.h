@@ -33,6 +33,37 @@ public:
     
     //=======================================================
     
+    void getOscType(float* selection)
+    {
+        theWave = *selection;
+    }
+    
+    //=======================================================
+    
+    double setOscType ()
+    {
+        if (theWave == 0)
+        {
+            return osc1.sinewave(frequency);
+        }
+        
+        if (theWave == 1)
+        {
+            return osc1.saw(frequency);
+        }
+        
+        if (theWave == 2)
+        {
+            return osc1.square(frequency);
+        }
+        else
+        {
+            return osc1.sinewave(frequency);
+        }
+    }
+    
+    //=======================================================
+    
     void startNote (int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition) override
     {
         env1.trigger = 1;
@@ -71,8 +102,8 @@ public:
     {
         for (int sample = 0; sample < numSamples; ++sample)
         {
-            double theWave = osc1.sinewave(frequency);
-            double theSound = env1.adsr(theWave, env1.trigger) * level;
+            //double theWave = osc1.sinewave(frequency);
+            double theSound = env1.adsr(setOscType(), env1.trigger) * level;
             
             for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
             {
@@ -86,6 +117,7 @@ public:
 private:
     double level;
     double frequency;
+    int theWave;
     
     maxiOsc osc1;
     maxiEnv env1;
