@@ -14,16 +14,13 @@
 
 //==============================================================================
 JuceSynthFrameworkAudioProcessorEditor::JuceSynthFrameworkAudioProcessorEditor (JuceSynthFrameworkAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p), oscGui(p), envGui(p)
+    : AudioProcessorEditor (&p), processor (p), oscGui(p), envGui(p), filterGui(p)
 {
-    setSize (400, 200);
+    setSize (600, 200);
     
     addAndMakeVisible(&oscGui);
     addAndMakeVisible(&envGui);
-    
-
-    
-    
+    addAndMakeVisible(&filterGui);
 }
 
 JuceSynthFrameworkAudioProcessorEditor::~JuceSynthFrameworkAudioProcessorEditor()
@@ -44,6 +41,7 @@ void JuceSynthFrameworkAudioProcessorEditor::resized()
     const int componentHeight = 200;
     
     oscGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     
     

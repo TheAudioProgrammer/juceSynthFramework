@@ -16,8 +16,7 @@
 //==============================================================================
 /*
 */
-class Envelope    : public Component,
-                    public Slider::Listener
+class Envelope    : public Component
 {
 public:
     Envelope(JuceSynthFrameworkAudioProcessor&);
@@ -26,7 +25,6 @@ public:
     void paint (Graphics&) override;
     void resized() override;
     
-    void sliderValueChanged (Slider*) override;
 
 private:
     Slider attackSlider;

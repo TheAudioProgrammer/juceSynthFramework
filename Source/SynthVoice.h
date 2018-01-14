@@ -23,13 +23,6 @@ public:
         return dynamic_cast <SynthSound*>(sound) != nullptr;
     }
     
-    void getEnvelopeParams(float* attack, float* decay, float* sustain, float* release)
-    {
-        env1.setAttack(*attack);
-        env1.setDecay(*decay);
-        env1.setSustain(*sustain);
-        env1.setRelease(*release);
-    }
     
     //=======================================================
     
@@ -37,7 +30,7 @@ public:
     {
         theWave = *selection;
     }
-    
+
     //=======================================================
     
     double setOscType ()
@@ -63,6 +56,58 @@ public:
     }
     
     //=======================================================
+    
+    void getEnvelopeParams(float* attack, float* decay, float* sustain, float* release)
+    {
+        env1.setAttack(*attack);
+        env1.setDecay(*decay);
+        env1.setSustain(*sustain);
+        env1.setRelease(*release);
+    }
+    
+    //=======================================================
+    
+    double setEnvelope()
+    {
+        return env1.adsr(setOscType(), env1.trigger);
+    }
+    
+    //=======================================================
+    
+    
+    void getFilterParams (float* filterType, float* filterCutoff, float* filterRes)
+    {
+        filterChoice = *filterType;
+        cutoff = *filterCutoff;
+        resonance = *filterRes;
+    }
+    
+    //=======================================================
+
+    double setFilter()
+    {
+        if (filterChoice == 0)
+        {
+            return filter1.lores(setEnvelope(), cutoff, resonance);
+        }
+        
+        if (filterChoice == 1)
+        {
+            return filter1.hires(setEnvelope(), cutoff, resonance);
+        }
+        
+        if (filterChoice == 2)
+        {
+            return filter1.bandpass(setEnvelope(), cutoff, resonance);
+        }
+        else
+        {
+            return filter1.lores(setEnvelope(), cutoff, resonance);
+        }
+    }
+    
+    //=======================================================
+
     
     void startNote (int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition) override
     {
@@ -102,12 +147,9 @@ public:
     {
         for (int sample = 0; sample < numSamples; ++sample)
         {
-            //double theWave = osc1.sinewave(frequency);
-            double theSound = env1.adsr(setOscType(), env1.trigger) * level;
-            
             for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
             {
-                outputBuffer.addSample(channel, startSample, theSound);
+                outputBuffer.addSample(channel, startSample, setFilter() * 0.3f);
             }
             ++startSample;
         }
@@ -119,8 +161,13 @@ private:
     double frequency;
     int theWave;
     
+    int filterChoice;
+    float cutoff;
+    float resonance;
+    
     maxiOsc osc1;
     maxiEnv env1;
+    maxiFilter filter1;
 
     
     

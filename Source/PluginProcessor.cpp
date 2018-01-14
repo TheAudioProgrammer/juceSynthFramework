@@ -42,6 +42,13 @@ tree(*this, nullptr)
     NormalisableRange<float> wavetypeParam (0, 2);
     tree.createAndAddParameter("wavetype", "WaveType", "wavetype", wavetypeParam, 0, nullptr, nullptr);
     
+    NormalisableRange<float> filterTypeVal (0, 2);
+    NormalisableRange<float> filterVal (20.0f, 10000.0f);
+    NormalisableRange<float> resVal (1, 5);
+    tree.createAndAddParameter("filterType", "FilterType", "filterType", filterTypeVal, 0, nullptr, nullptr);
+    tree.createAndAddParameter("filterCutoff", "FilterCutoff", "filterCutoff", filterVal, 400.0f, nullptr, nullptr);
+    tree.createAndAddParameter("filterRes", "FilterRes", "filterRes", resVal, 1, nullptr, nullptr);
+    
     
     mySynth.clearVoices();
     
@@ -175,6 +182,11 @@ void JuceSynthFrameworkAudioProcessor::processBlock (AudioSampleBuffer& buffer, 
                                        tree.getRawParameterValue("release"));
             
             myVoice->getOscType(tree.getRawParameterValue("wavetype"));
+            
+            myVoice->getFilterParams(tree.getRawParameterValue("filterType"),
+                                     tree.getRawParameterValue("filterCutoff"),
+                                     tree.getRawParameterValue("filterRes"));
+            
         }
     }
     

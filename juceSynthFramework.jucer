@@ -50,6 +50,8 @@
       <FILE id="lwHWX8" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
       <FILE id="shQvqD" name="Envelope.cpp" compile="1" resource="0" file="Source/Envelope.cpp"/>
       <FILE id="O5SdTn" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
+      <FILE id="GQJW3U" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>
+      <FILE id="dQRQc2" name="Filter.h" compile="0" resource="0" file="Source/Filter.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
