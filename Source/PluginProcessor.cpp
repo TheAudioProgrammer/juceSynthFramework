@@ -132,6 +132,15 @@ void JuceSynthFrameworkAudioProcessor::prepareToPlay (double sampleRate, int sam
     ignoreUnused(samplesPerBlock);
     lastSampleRate = sampleRate;
     mySynth.setCurrentPlaybackSampleRate(lastSampleRate);
+    
+    dsp::ProcessSpec spec;
+    spec.sampleRate = lastSampleRate;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = getTotalNumOutputChannels();
+    
+    stateVariableFilter.reset();
+    stateVariableFilter.prepare(spec);
+    updateFilter();
 }
 
 void JuceSynthFrameworkAudioProcessor::releaseResources()
@@ -164,6 +173,31 @@ bool JuceSynthFrameworkAudioProcessor::isBusesLayoutSupported (const BusesLayout
 }
 #endif
 
+void JuceSynthFrameworkAudioProcessor::updateFilter()
+{
+    int menuChoice = *tree.getRawParameterValue("filterType");
+    int freq = *tree.getRawParameterValue("filterCutoff");
+    int res = *tree.getRawParameterValue("filterRes");
+    
+    if (menuChoice == 0)
+    {
+        stateVariableFilter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
+        stateVariableFilter.state->setCutOffFrequency(lastSampleRate, freq, res);
+    }
+    
+    if (menuChoice == 1)
+    {
+        stateVariableFilter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::highPass;
+        stateVariableFilter.state->setCutOffFrequency(lastSampleRate, freq, res);
+    }
+    
+    if (menuChoice == 2)
+    {
+        stateVariableFilter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::bandPass;
+        stateVariableFilter.state->setCutOffFrequency(lastSampleRate, freq, res);
+    }
+}
+
 void JuceSynthFrameworkAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
     ScopedNoDenormals noDenormals;
@@ -192,7 +226,9 @@ void JuceSynthFrameworkAudioProcessor::processBlock (AudioSampleBuffer& buffer, 
     
     buffer.clear();
     mySynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
-    
+    updateFilter();
+    dsp::AudioBlock<float> block (buffer);
+    stateVariableFilter.process(dsp::ProcessContextReplacing<float> (block));
 }
 
 //==============================================================================

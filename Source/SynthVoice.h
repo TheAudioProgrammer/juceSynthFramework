@@ -83,31 +83,6 @@ public:
     }
     
     //=======================================================
-
-    double setFilter()
-    {
-        if (filterChoice == 0)
-        {
-            return filter1.lores(setEnvelope(), cutoff, resonance);
-        }
-        
-        if (filterChoice == 1)
-        {
-            return filter1.hires(setEnvelope(), cutoff, resonance);
-        }
-        
-        if (filterChoice == 2)
-        {
-            return filter1.bandpass(setEnvelope(), cutoff, resonance);
-        }
-        else
-        {
-            return filter1.lores(setEnvelope(), cutoff, resonance);
-        }
-    }
-    
-    //=======================================================
-
     
     void startNote (int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition) override
     {
@@ -149,7 +124,7 @@ public:
         {
             for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
             {
-                outputBuffer.addSample(channel, startSample, setFilter() * 0.3f);
+                outputBuffer.addSample(channel, startSample, setEnvelope() * 0.3f);
             }
             ++startSample;
         }
@@ -167,9 +142,4 @@ private:
     
     maxiOsc osc1;
     maxiEnv env1;
-    maxiFilter filter1;
-
-    
-    
-    
 };
