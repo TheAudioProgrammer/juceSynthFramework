@@ -47,13 +47,13 @@ Filter::~Filter()
 void Filter::paint (Graphics& g)
 {
     //background ui stuff
-    Rectangle<int> titleArea (0, 10, getWidth(), 20);
+    juce::Rectangle<int> titleArea (0, 10, getWidth(), 20);
     
     g.fillAll (Colours::black);
     g.setColour(Colours::white);
     g.drawText("Filter", titleArea, Justification::centredTop);
     
-    Rectangle <float> area (25, 25, 150, 150);
+    juce::Rectangle <float> area (25, 25, 150, 150);
     
     g.setColour(Colours::yellow);
     g.drawRoundedRectangle(area, 20.0f, 2.0f);
@@ -62,7 +62,7 @@ void Filter::paint (Graphics& g)
 void Filter::resized()
 {
     //need to come back and dynamically set these...ok for now
-    Rectangle<int> area = getLocalBounds().reduced(40);
+    juce::Rectangle<int> area = getLocalBounds().reduced(40);
     
     filterMenu.setBounds(area.removeFromTop(20));
     filterCutoff.setBounds (30, 100, 70, 70);

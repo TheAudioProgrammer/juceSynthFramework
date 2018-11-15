@@ -56,7 +56,7 @@ Envelope::~Envelope()
 void Envelope::paint (Graphics& g)
 {
     //fancy stuff for the UI background etc
-    Rectangle<int> titleArea (0, 10, getWidth(), 20);
+    juce::Rectangle<int> titleArea (0, 10, getWidth(), 20);
     
     g.fillAll (Colours::black);
     g.setColour(Colours::white);
@@ -68,7 +68,7 @@ void Envelope::paint (Graphics& g)
     g.drawText ("S", 103, 150, 20, 20, Justification::centredTop);
     g.drawText ("R", 128, 150, 20, 20, Justification::centredTop);
     
-    Rectangle <float> area (25, 25, 150, 150);
+    juce::Rectangle <float> area (25, 25, 150, 150);
     
     g.setColour(Colours::yellow);
     g.drawRoundedRectangle(area, 20.0f, 2.0f);
@@ -77,7 +77,7 @@ void Envelope::paint (Graphics& g)
 void Envelope::resized()
 {
     //draws the sliders...we use a rectangle object to dynamically size the UI (if we want to resize for IPad etc without needing to change ALL settings
-    Rectangle<int> area = getLocalBounds().reduced(50);
+    juce::Rectangle<int> area = getLocalBounds().reduced(50);
     
     int sliderWidth = 25;
     int sliderHeight = 175;

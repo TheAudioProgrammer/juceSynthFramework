@@ -11,7 +11,6 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-
 //==============================================================================
 JuceSynthFrameworkAudioProcessorEditor::JuceSynthFrameworkAudioProcessorEditor (JuceSynthFrameworkAudioProcessor& p)
     : AudioProcessorEditor (&p), processor (p), oscGui(p), envGui(p), filterGui(p)
@@ -35,7 +34,7 @@ void JuceSynthFrameworkAudioProcessorEditor::paint (Graphics& g)
 
 void JuceSynthFrameworkAudioProcessorEditor::resized()
 {
-    Rectangle<int> area = getLocalBounds();
+    juce::Rectangle<int> area = getLocalBounds();
     
     const int componentWidth = 200;
     const int componentHeight = 200;
