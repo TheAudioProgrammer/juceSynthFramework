@@ -14,7 +14,6 @@
 #include "SynthSound.h"
 #include "Maximilian.h"
 
-
 class SynthVoice : public SynthesiserVoice
 {
 public:
@@ -23,7 +22,41 @@ public:
         return dynamic_cast <SynthSound*>(sound) != nullptr;
     }
     
-    
+    void setPitchBend(int pitchWheelPos)
+    {
+        if (pitchWheelPos > 8192)
+        {
+            // shifting up
+            pitchBend = float(pitchWheelPos - 8192) / (16383 - 8192);
+        }
+        else
+        {
+            // shifting down
+            pitchBend = float(8192 - pitchWheelPos) / -8192;    // negative number
+        }
+    }
+
+    float pitchBendCents()
+    {
+        if (pitchBend >= 0.0f)
+        {
+            // shifting up
+            return pitchBend * pitchBendUpSemitones * 100;
+        }
+        else
+        {
+            // shifting down
+            return pitchBend * pitchBendDownSemitones * 100;
+        }
+    }
+
+    static double noteHz(int midiNoteNumber, double centsOffset)
+    {
+        double hertz = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+        hertz *= std::pow(2.0, centsOffset / 1200);
+        return hertz;
+    }
+
     //=======================================================
     
     void getOscType(float* selection)
@@ -86,8 +119,10 @@ public:
     
     void startNote (int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition) override
     {
+        noteNumber = midiNoteNumber;
         env1.trigger = 1;
-        frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+        setPitchBend(currentPitchWheelPosition);
+        frequency = noteHz(noteNumber, pitchBendCents());
         level = velocity;
     }
     
@@ -106,7 +141,8 @@ public:
     
     void pitchWheelMoved (int newPitchWheelValue) override
     {
-        
+        setPitchBend(newPitchWheelValue);
+        frequency = noteHz(noteNumber, pitchBendCents());
     }
     
     //=======================================================
@@ -135,6 +171,11 @@ private:
     double level;
     double frequency;
     int theWave;
+
+    int noteNumber;
+    float pitchBend = 0.0f;
+    float pitchBendUpSemitones = 2.0f;
+    float pitchBendDownSemitones = 2.0f;
     
     int filterChoice;
     float cutoff;
