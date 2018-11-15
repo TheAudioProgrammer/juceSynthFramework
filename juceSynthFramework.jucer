@@ -3,7 +3,7 @@
 <JUCERPROJECT id="ymDLCP" name="juceSynthFramework" displaySplashScreen="1"
               reportAppUsage="1" splashScreenColour="Dark" projectType="audioplug"
               version="1.0.0" bundleIdentifier="com.yourcompany.juceSynthFramework"
-              includeBinaryInAppConfig="1" companyCopyright="" buildVST="1"
+              includeBinaryInAppConfig="1" companyCopyright="" buildVST="0"
               buildVST3="0" buildAU="1" buildAUv3="0" buildRTAS="0" buildAAX="0"
               buildStandalone="1" enableIAA="0" pluginName="juceSynthFramework"
               pluginDesc="juceSynthFramework" pluginManufacturer="yourcompany"
@@ -11,7 +11,7 @@
               pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
               pluginIsMidiEffectPlugin="0" pluginEditorRequiresKeys="0" pluginAUExportPrefix="juceSynthFrameworkAU"
               aaxIdentifier="com.yourcompany.juceSynthFramework" pluginAAXCategory="2"
-              jucerVersion="5.4.1" pluginFormats="buildVST,buildAU,buildStandalone"
+              jucerVersion="5.4.1" pluginFormats="buildAU,buildStandalone"
               pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
               headerPath="../../../Maximilian">
   <MAINGROUP id="Z0T8fs" name="juceSynthFramework">
@@ -130,5 +130,6 @@
   <JUCEOPTIONS JUCE_QUICKTIME="disabled"/>
   <LIVE_SETTINGS>
     <WINDOWS/>
+    <OSX/>
   </LIVE_SETTINGS>
 </JUCERPROJECT>
