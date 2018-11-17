@@ -75,67 +75,35 @@ public:
     double setOscType ()
     
     {
-        
         double sample1, sample2;
         
-        
-        
         switch (theWave)
-        
         {
-                
             case 0:
-                
                 sample1 = osc1.square(frequency);
-                
                 break;
-                
             case 1:
-                
                 sample1 = osc1.saw(frequency);
-                
                 break;
-                
             default:
-                
                 sample1 = osc1.sinewave(frequency);
-                
                 break;
-                
         }
-        
-        
-        
         
         switch (theWave2)
-        
         {
-                
-                
             case 0:
-                
-                sample2 = osc2.saw(frequency*2)/2;
-                
+                sample2 = osc2.saw(frequency / 2.0);
                 break;
-                
             case 1:
-                
-                sample2 = osc2.square(frequency*2)/2;
-                
+                sample2 = osc2.square(frequency / 2.0);
                 break;
-                
             default:
-                
-                sample2 = osc2.sinewave(frequency*2)/2;
-                
+                sample2 = osc2.sinewave(frequency / 2.0);
                 break;
-                
         }
         
-        
-        
-        return sample1 + sample2;
-        
+        return sample1 + osc2blend * sample2;
     }
     
     //=======================================================
@@ -157,6 +125,14 @@ public:
     
     //=======================================================
     
+    void getWillsParams(float* mGain, float* blend, float* pbup, float* pbdn)
+    {
+        masterGain = *mGain;
+        osc2blend = *blend;
+        DBG(String(osc2blend));
+        pitchBendUpSemitones = *pbup;
+        pitchBendDownSemitones = *pbdn;
+    }
     
     void getFilterParams (float* filterType, float* filterCutoff, float* filterRes)
     {
@@ -210,7 +186,7 @@ public:
         {
             for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
             {
-                outputBuffer.addSample(channel, startSample, setEnvelope() * 0.55f);
+                outputBuffer.addSample(channel, startSample, setEnvelope() * masterGain);
             }
             ++startSample;
         }
@@ -222,11 +198,14 @@ private:
     double frequency;
     int theWave, theWave2;
 
+    float masterGain;
+    float osc2blend;
+
     int noteNumber;
     float pitchBend = 0.0f;
     float pitchBendUpSemitones = 2.0f;
     float pitchBendDownSemitones = 2.0f;
-    
+
     int filterChoice;
     float cutoff;
     float resonance;

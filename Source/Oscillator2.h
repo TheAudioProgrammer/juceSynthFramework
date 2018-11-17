@@ -16,8 +16,7 @@
 //==============================================================================
 /*
  */
-class Oscillator2    : public Component,
-private ComboBox::Listener
+class Oscillator2    : public Component
 {
 public:
     Oscillator2(JuceSynthFrameworkAudioProcessor&);
@@ -25,8 +24,6 @@ public:
     
     void paint (Graphics&) override;
     void resized() override;
-    
-    void comboBoxChanged(ComboBox*) override;
     
 private:
     ComboBox osc2Menu;
@@ -42,4 +39,3 @@ private:
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Oscillator2)
 };
-#pragma once

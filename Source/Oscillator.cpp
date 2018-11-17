@@ -22,7 +22,6 @@ processor(p)
     oscMenu.addItem("Sine", 3);
     oscMenu.setJustificationType(Justification::centred);
     addAndMakeVisible(&oscMenu);
-    oscMenu.addListener(this);
     
     waveSelection = new AudioProcessorValueTreeState::ComboBoxAttachment (processor.tree, "wavetype", oscMenu);
 }
@@ -52,9 +51,3 @@ void Oscillator::resized()
     juce::Rectangle<int> area = getLocalBounds().reduced(40);
     oscMenu.setBounds(area.removeFromTop(20));
 }
-
-void Oscillator::comboBoxChanged(ComboBox* box)
-{
-    
-}
-

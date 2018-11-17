@@ -33,6 +33,10 @@ JuceSynthFrameworkAudioProcessor::JuceSynthFrameworkAudioProcessor()
             std::make_unique<AudioParameterFloat>("filterType", "FilterType", NormalisableRange<float>(0.0f, 2.0f), 0.0f),
             std::make_unique<AudioParameterFloat>("filterCutoff", "FilterCutoff", NormalisableRange<float>(20.0f, 10000.0f), 400.0f),
             std::make_unique<AudioParameterFloat>("filterRes", "FilterRes", NormalisableRange<float>(1.0f, 5.0f), 1.0f),
+            std::make_unique<AudioParameterFloat>("blend", "Osc2Blend", NormalisableRange<float>(0.0f, 1.0f), 0.6f),
+            std::make_unique<AudioParameterFloat>("mastergain", "MasterGain", NormalisableRange<float>(0.0f, 1.0f), 0.7f),
+            std::make_unique<AudioParameterFloat>("pbup", "PBup", NormalisableRange<float>(1.0f, 12.0f), 2.0f),
+            std::make_unique<AudioParameterFloat>("pbdown", "PBdown", NormalisableRange<float>(1.0f, 12.0f), 2.0f),
         })
 #endif
 {
@@ -202,13 +206,16 @@ void JuceSynthFrameworkAudioProcessor::processBlock (AudioSampleBuffer& buffer, 
                                        tree.getRawParameterValue("release"));
             
             myVoice->getOscType(tree.getRawParameterValue("wavetype"));
-            
             myVoice->getOsc2Type(tree.getRawParameterValue("wavetype2"));
             
             myVoice->getFilterParams(tree.getRawParameterValue("filterType"),
                                      tree.getRawParameterValue("filterCutoff"),
                                      tree.getRawParameterValue("filterRes"));
             
+            myVoice->getWillsParams(tree.getRawParameterValue("mastergain"),
+                                    tree.getRawParameterValue("blend"),
+                                    tree.getRawParameterValue("pbup"),
+                                    tree.getRawParameterValue("pbdown"));
         }
     }
     

@@ -22,19 +22,18 @@ processor(p)
     osc2Menu.addItem("Sine", 3);
     osc2Menu.setJustificationType(Justification::centred);
     addAndMakeVisible(&osc2Menu);
-    osc2Menu.addListener(this);
     
     waveSelection2 = new AudioProcessorValueTreeState::ComboBoxAttachment (processor.tree, "wavetype2", osc2Menu);
     
     //slider initialization values
     Blendslider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-    Blendslider.setRange(0.1f, 5000.0f);
-    Blendslider.setValue(4000.0f);
+    Blendslider.setRange(0.0f, 1.0f);
+    Blendslider.setValue(1.0f);
     Blendslider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&Blendslider);
     
     //sends value of the sliders to the tree state in the processor
-    blendVal = new AudioProcessorValueTreeState::SliderAttachment (processor.tree, "Blend", Blendslider);
+    blendVal = new AudioProcessorValueTreeState::SliderAttachment (processor.tree, "blend", Blendslider);
 }
 
 Oscillator2::~Oscillator2()
@@ -71,9 +70,3 @@ void Oscillator2::resized()
     //draw sliders by reducing area from rectangle above
     Blendslider.setBounds (area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(10));
 }
-
-void Oscillator2::comboBoxChanged(ComboBox* box)
-{
-    
-}
-#include "Oscillator2.h"
