@@ -17,9 +17,9 @@ processor(p)
 {
     setSize(200, 200);
     
-    oscMenu.addItem("Sine", 1);
+    oscMenu.addItem("Square", 1);
     oscMenu.addItem("Saw", 2);
-    oscMenu.addItem("Square", 3);
+    oscMenu.addItem("Sine", 3);
     oscMenu.setJustificationType(Justification::centred);
     addAndMakeVisible(&oscMenu);
     oscMenu.addListener(this);

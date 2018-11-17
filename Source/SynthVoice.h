@@ -62,30 +62,80 @@ public:
     void getOscType(float* selection)
     {
         theWave = *selection;
+        
     }
-
+    
+    void getOsc2Type(float* selection)
+    {
+        
+        theWave2 = *selection;
+    }
     //=======================================================
     
     double setOscType ()
+    
     {
-        if (theWave == 0)
+        
+        double sample1, sample2;
+        
+        
+        
+        switch (theWave)
+        
         {
-            return osc1.sinewave(frequency);
+                
+            case 0:
+                
+                sample1 = osc1.square(frequency);
+                
+                break;
+                
+            case 1:
+                
+                sample1 = osc1.saw(frequency);
+                
+                break;
+                
+            default:
+                
+                sample1 = osc1.sinewave(frequency);
+                
+                break;
+                
         }
         
-        if (theWave == 1)
+        
+        
+        
+        switch (theWave2)
+        
         {
-            return osc1.saw(frequency);
+                
+                
+            case 0:
+                
+                sample2 = osc2.saw(frequency*2)/2;
+                
+                break;
+                
+            case 1:
+                
+                sample2 = osc2.square(frequency*2)/2;
+                
+                break;
+                
+            default:
+                
+                sample2 = osc2.sinewave(frequency*2)/2;
+                
+                break;
+                
         }
         
-        if (theWave == 2)
-        {
-            return osc1.square(frequency);
-        }
-        else
-        {
-            return osc1.sinewave(frequency);
-        }
+        
+        
+        return sample1 + sample2;
+        
     }
     
     //=======================================================
@@ -160,7 +210,7 @@ public:
         {
             for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
             {
-                outputBuffer.addSample(channel, startSample, setEnvelope() * 0.3f);
+                outputBuffer.addSample(channel, startSample, setEnvelope() * 0.55f);
             }
             ++startSample;
         }
@@ -170,7 +220,7 @@ public:
 private:
     double level;
     double frequency;
-    int theWave;
+    int theWave, theWave2;
 
     int noteNumber;
     float pitchBend = 0.0f;
@@ -181,6 +231,6 @@ private:
     float cutoff;
     float resonance;
     
-    maxiOsc osc1;
+    maxiOsc osc1, osc2;
     maxiEnv env1;
 };
