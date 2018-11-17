@@ -55,6 +55,10 @@
       <FILE id="GQJW3U" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>
       <FILE id="dQRQc2" name="Filter.h" compile="0" resource="0" file="Source/Filter.h"/>
     </GROUP>
+    <FILE id="TtpNN9" name="Frontgui.cpp" compile="1" resource="0" file="Source/Frontgui.cpp"/>
+    <FILE id="iUzFnD" name="Frontgui.h" compile="0" resource="0" file="Source/Frontgui.h"/>
+    <FILE id="Ui1hbj" name="Oscillator2.cpp" compile="1" resource="0" file="Source/Oscillator2.cpp"/>
+    <FILE id="Rm8On6" name="Oscillator2.h" compile="0" resource="0" file="Source/Oscillator2.h"/>
   </MAINGROUP>
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX">

@@ -129,7 +129,6 @@ public:
     {
         masterGain = *mGain;
         osc2blend = *blend;
-        DBG(String(osc2blend));
         pitchBendUpSemitones = *pbup;
         pitchBendDownSemitones = *pbdn;
     }
