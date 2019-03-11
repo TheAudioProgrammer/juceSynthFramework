@@ -16,8 +16,7 @@
 //==============================================================================
 /*
 */
-class Oscillator    : public Component,
-                      private ComboBox::Listener
+class Oscillator    : public Component
 {
 public:
     Oscillator(JuceSynthFrameworkAudioProcessor&);
@@ -25,8 +24,6 @@ public:
 
     void paint (Graphics&) override;
     void resized() override;
-    
-    void comboBoxChanged(ComboBox*) override;
 
 private:
     ComboBox oscMenu;
