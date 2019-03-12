@@ -19,25 +19,25 @@ processor(p)
     
         //slider initialization values
         attackSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-        attackSlider.setRange(0.1f, 5000.0f);
+        attackSlider.setRange(0.1f, 5.0f);
         attackSlider.setValue(0.1f);
         attackSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
         addAndMakeVisible(&attackSlider);
     
         decaySlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-        decaySlider.setRange(1.0f, 2000.0f);
-        decaySlider.setValue(1.0f);
+        decaySlider.setRange(0.1f, 2.0f);
+        decaySlider.setValue(0.8f);
         decaySlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
         addAndMakeVisible(&decaySlider);
     
         sustainSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-        sustainSlider.setRange(0.0f, 1.0f);
+        sustainSlider.setRange(0.1f, 1.0f);
         sustainSlider.setValue(0.8f);
         sustainSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
         addAndMakeVisible(&sustainSlider);
     
         releaseSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-        releaseSlider.setRange(0.1f, 5000.0f);
+        releaseSlider.setRange(0.1f, 5.0f);
         releaseSlider.setValue(0.8f);
         releaseSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
         addAndMakeVisible(&releaseSlider);

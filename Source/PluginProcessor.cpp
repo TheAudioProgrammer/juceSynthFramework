@@ -24,10 +24,10 @@ JuceSynthFrameworkAudioProcessor::JuceSynthFrameworkAudioProcessor()
                      #endif
                        )
     , tree(*this, nullptr, "PARAMETERS",
-        {   std::make_unique<AudioParameterFloat>("attack", "Attack", NormalisableRange<float>(0.1f, 5000.0f), 0.1f),
-            std::make_unique<AudioParameterFloat>("decay", "Decay", NormalisableRange<float>(1.0f, 2000.0f), 1.0f),
-            std::make_unique<AudioParameterFloat>("sustain", "Sustain", NormalisableRange<float>(0.0f, 1.0f), 0.8f),
-            std::make_unique<AudioParameterFloat>("release", "Release", NormalisableRange<float>(0.1f, 5000.0f), 0.1f),
+        {   std::make_unique<AudioParameterFloat>("attack", "Attack", NormalisableRange<float>(0.1f, 5.0f), 0.1f),
+            std::make_unique<AudioParameterFloat>("decay", "Decay", NormalisableRange<float>(0.1f, 2.0f), 0.8f),
+            std::make_unique<AudioParameterFloat>("sustain", "Sustain", NormalisableRange<float>(0.1f, 1.0f), 0.8f),
+            std::make_unique<AudioParameterFloat>("release", "Release", NormalisableRange<float>(0.1f, 5.0f), 0.1f),
             std::make_unique<AudioParameterFloat>("wavetype", "WaveType", NormalisableRange<float>(0.0f, 2.0f), 0.0f),
             std::make_unique<AudioParameterFloat>("wavetype2", "WaveType2", NormalisableRange<float>(0.0f, 2.0f), 0.0f),
             std::make_unique<AudioParameterFloat>("filterType", "FilterType", NormalisableRange<float>(0.0f, 2.0f), 0.0f),
@@ -200,6 +200,7 @@ void JuceSynthFrameworkAudioProcessor::processBlock (AudioSampleBuffer& buffer, 
         //if myVoice sucessfully casts as a SynthVoice*, get the voice and set the params
         if ((myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i))))
         {
+            myVoice->setADSRSampleRate(lastSampleRate);
             myVoice->getEnvelopeParams(tree.getRawParameterValue("attack"),
                                        tree.getRawParameterValue("decay"),
                                        tree.getRawParameterValue("sustain"),

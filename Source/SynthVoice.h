@@ -108,19 +108,17 @@ public:
     
     //=======================================================
     
-    void getEnvelopeParams(float* attack, float* decay, float* sustain, float* release)
+    void setADSRSampleRate (double sampleRate)
     {
-        env1.setAttack(*attack);
-        env1.setDecay(*decay);
-        env1.setSustain(*sustain);
-        env1.setRelease(*release);
+        adsr.setSampleRate (sampleRate);
     }
     
-    //=======================================================
-    
-    double setEnvelope()
+    void getEnvelopeParams(float* attack, float* decay, float* sustain, float* release)
     {
-        return env1.adsr(setOscType(), env1.trigger);
+        adsrParams.attack = *attack;
+        adsrParams.decay = *decay;
+        adsrParams.sustain = *sustain;
+        adsrParams.release = *release;
     }
     
     //=======================================================
@@ -144,8 +142,8 @@ public:
     
     void startNote (int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition) override
     {
+        adsr.noteOn();
         noteNumber = midiNoteNumber;
-        env1.trigger = 1;
         setPitchBend(currentPitchWheelPosition);
         frequency = noteHz(noteNumber, pitchBendCents());
         level = velocity;
@@ -155,7 +153,7 @@ public:
     
     void stopNote (float velocity, bool allowTailOff) override
     {
-        env1.trigger = 0;
+        adsr.noteOff();
         allowTailOff = true;
         
         if (velocity == 0)
@@ -181,11 +179,13 @@ public:
     
     void renderNextBlock (AudioBuffer <float> &outputBuffer, int startSample, int numSamples) override
     {
+        adsr.setParameters (adsrParams);
+        
         for (int sample = 0; sample < numSamples; ++sample)
         {
             for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
             {
-                outputBuffer.addSample(channel, startSample, setEnvelope() * masterGain);
+                outputBuffer.addSample(channel, startSample, adsr.getNextSample() * setOscType() * masterGain);
             }
             ++startSample;
         }
@@ -210,5 +210,7 @@ private:
     float resonance;
     
     maxiOsc osc1, osc2;
-    maxiEnv env1;
+    
+    ADSR adsr;
+    ADSR::Parameters adsrParams;
 };
